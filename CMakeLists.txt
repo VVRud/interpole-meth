@@ -3,7 +3,6 @@ project(SntKursach)
 
 set(CMAKE_CXX_STANDARD 11)
 
-file(GLOB LIBS lib/*cpp lib/*h)
+file(GLOB LIBS lib/*cpp lib/*h lib/*hpp)
 
 add_executable(SntKursach main.cpp ${LIBS})
-#add_executable(SntKursach spline/aspline.c spline/utils.c spline/utils.h)
