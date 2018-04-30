@@ -84,22 +84,6 @@ double Segment::calculate(double t) {
            t3 * points[3].getY();
 }
 
-double Segment::getS() const {
-    return this->s;
-}
-
-void Segment::setS(double s) {
-    this->s = s;
-}
-
-double Segment::getF() const {
-    return this->f;
-}
-
-void Segment::setF(double f) {
-    this->f = f;
-}
-
 Bezier::Bezier() : seg_ar(nullptr) {
 }
 
@@ -147,11 +131,6 @@ void Bezier::buildSpline(double *x, double *y, int cnt) {
     createPoints(x, y, cnt, values);
 
     seg_ar = new Segment[n];
-
-    for (int j = 0; j < n; ++j) {
-        seg_ar[j].setS(x[j]);
-        seg_ar[j].setF(x[j + 1]);
-    }
 
     Point tgL;
     Point tgR;

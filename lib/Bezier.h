@@ -35,23 +35,12 @@ public:
 };
 
 class Segment {
-private:
-    double s = 0;
-    double f = 0;
 public:
     Point points[4];
 
     void calculatePoint(double t, Point &p);
 
     double calculate(double t);
-
-    double getS() const;
-
-    void setS(double s);
-
-    double getF() const;
-
-    void setF(double f);
 };
 
 class Bezier : public Base {
