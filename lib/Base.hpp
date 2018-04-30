@@ -27,7 +27,7 @@ protected:
 
     Base() = default;
 
-    Base(int n) {
+    explicit Base(int n) {
         if (n <= 1) {
             Exceptions::error(Exceptions::FEW_POINTS);
             return;

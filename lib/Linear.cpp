@@ -5,7 +5,7 @@ Linear::Linear() : splines(nullptr) {
 }
 
 Linear::Linear(double *x, double *y, int n) : Base(n) {
-    buildSpline(x, y, n);
+    build(x, y, n);
 }
 
 Linear::Linear(char *f) {
@@ -23,7 +23,7 @@ Linear::Linear(char *f) {
     auto *y = new double[n];
     readDataFromFile(file, x, y, n);
     file.close();
-    buildSpline(x, y, n);
+    build(x, y, n);
 }
 
 void Linear::free_mem() {
@@ -35,7 +35,7 @@ Linear::~Linear() {
     free_mem();
 }
 
-void Linear::buildSpline(double *x, double *y, int cnt) {
+void Linear::build(double *x, double *y, int cnt) {
     free_mem();
     this->n = cnt;
     splines = new spline_tuple[n];

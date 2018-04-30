@@ -23,7 +23,7 @@ public:
 
     virtual ~Linear();
 
-    void buildSpline(double *x, double *y, int cnt);
+    void build(double *x, double *y, int cnt);
 
     double calculate(double x);
 
