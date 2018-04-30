@@ -1,11 +1,11 @@
 #include <iostream>
 #include "lib/CubicSpline.h"
 #include "lib/RSFNet.h"
+#include "lib/Bezier.h"
 
 int main() {
-    RSFNet s(const_cast<char *>("input"), 1.5);
-    s.print_coef();
-    std::cout << s.calculate(2);
+    Bezier s(const_cast<char *>("input"));
+    std::cout << s.calculateYfromX(1.7);
 
     return 0;
 }
