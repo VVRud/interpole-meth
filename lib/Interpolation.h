@@ -1,0 +1,6 @@
+#include "Linear.h"
+#include "CubicSpline.h"
+#include "AkimaSpline.h"
+#include "RSFNet.h"
+#include "LagranjPolinome.h"
+#include "Bezier.h"

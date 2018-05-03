@@ -29,8 +29,10 @@ Linear::Linear(char *f) {
 }
 
 void Linear::free_mem() {
-    delete[] splines;
-    splines = nullptr;
+    if (!splines) {
+        delete[] splines;
+        splines = nullptr;
+    }
 }
 
 Linear::~Linear() {

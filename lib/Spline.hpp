@@ -19,8 +19,10 @@ protected:
     spline_tuple *splines; // Сплайн
     int n; // Количество узлов сетки
     void free_mem() {
-        delete[] splines;
-        splines = nullptr;
+        if(!splines) {
+            delete[] splines;
+            splines = nullptr;
+        }
     }
 
 

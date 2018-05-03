@@ -113,8 +113,10 @@ Bezier::Bezier(char *f) {
 }
 
 void Bezier::free_mem() {
-    delete[] seg_ar;
-    seg_ar = nullptr;
+    if (!seg_ar) {
+        delete[] seg_ar;
+        seg_ar = nullptr;
+    }
 }
 
 Bezier::~Bezier() {

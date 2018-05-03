@@ -10,8 +10,10 @@ LagranjPolinome::LagranjPolinome(double *x, double *y, int n) : Base(n) {
 }
 
 void LagranjPolinome::free_mem() {
-    delete[] splines;
-    splines = nullptr;
+    if (!splines) {
+        delete[] splines;
+        splines = nullptr;
+    }
 }
 
 LagranjPolinome::~LagranjPolinome() {
