@@ -1,11 +1,6 @@
-#include "desktop/mainwindow.h"
-#include <QApplication>
+#include "lib/Interpolation.h"
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+int main(int argc, char *argv[]) {
 
-    return a.exec();
+    return 0;
 }
