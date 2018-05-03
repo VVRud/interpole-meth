@@ -40,12 +40,12 @@ public:
 
     void calculatePoint(double t, Point &p);
 
-    double calculate(double t);
+    double calculateY(double t);
 };
 
 class Bezier : public Base {
 protected:
-    Segment *seg_ar;
+    Segment *seg_ar = nullptr;
 
     void free_mem();
 
@@ -68,7 +68,7 @@ public:
 
     double calculateYfromX(double x);
 
-    void calculatePointOnSegment(int s, int t, Point &p);
+    void calculatePointOnSegment(int s, double t, Point &p);
 
     int size();
 };

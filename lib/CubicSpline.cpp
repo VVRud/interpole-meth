@@ -1,5 +1,5 @@
+#include <limits>
 #include "CubicSpline.h"
-#include "Exceptions.h"
 
 CubicSpline::CubicSpline() : Spline() {
 }
@@ -19,7 +19,7 @@ CubicSpline::CubicSpline(char* f) {
         return;
     }
     int n = countLines(file);
-    if(n<=1){
+    if (n <= 1) {
         Exceptions::error(Exceptions::FEW_POINTS);
         return;
     }
@@ -28,6 +28,8 @@ CubicSpline::CubicSpline(char* f) {
     readDataFromFile(file, x, y, n);
     file.close();
     buildSpline(x, y, n);
+    delete[] x;
+    delete[] y;
 }
 
 void CubicSpline::buildSpline(double *x, double *y, int n) {
@@ -37,8 +39,7 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
 
     // Инициализация массива сплайнов
     splines = new spline_tuple[n];
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i = 0; i < n; ++i) {
         splines[i].x = x[i];
         splines[i].a = y[i];
     }
@@ -49,8 +50,7 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
     auto *beta = new double[n - 1];
     double A, B, C, F, h_i, h_i1, z;
     alpha[0] = beta[0] = 0.;
-    for (int i = 1; i < n - 1; ++i)
-    {
+    for (int i = 1; i < n - 1; ++i) {
         h_i = x[i] - x[i - 1];
         h_i1 = x[i + 1] - x[i];
         A = h_i;
@@ -72,8 +72,7 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
     delete[] alpha;
 
     // По известным коэффициентам c[i] находим значения b[i] и d[i]
-    for (int i = n - 1; i > 0; --i)
-    {
+    for (int i = n - 1; i > 0; --i) {
         h_i = x[i] - x[i - 1];
         splines[i].d = (splines[i].c - splines[i - 1].c) / h_i;
         splines[i].b = h_i * (2. * splines[i].c + splines[i - 1].c) / 6. + (y[i] - y[i - 1]) / h_i;
@@ -83,7 +82,7 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
 double CubicSpline::calculate(double x)
 {
     if (!splines){
-        return NULL; // Если сплайны ещё не построены - возвращаем NaN
+        std::numeric_limits<double>::quiet_NaN();
     }
 
     spline_tuple *s;
@@ -91,11 +90,9 @@ double CubicSpline::calculate(double x)
         s = splines + 1;
     else if (x >= splines[n - 1].x)
         s = splines + n - 1;
-    else
-    {
+    else {
         int i = 0, j = n - 1;
-        while (i + 1 < j)
-        {
+        while (i + 1 < j) {
             int k = i + (j - i) / 2;
             if (x <= splines[k].x)
                 j = k;

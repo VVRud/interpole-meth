@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
-project(SntKursach)
+project(Interpolation)
 
-set(GCC_COVERAGE_LINK_FLAGS "-I Eigen/")
+set(GCC_COVERAGE_LINK_FLAGS "-I lib/Eigen/")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 set(CMAKE_CXX_STANDARD 11)
 
@@ -10,4 +10,4 @@ file(GLOB LIBS
         lib/*h
         lib/*hpp)
 
-add_executable(SntKursach main.cpp ${LIBS})
+add_executable(Interpolation main.cpp ${LIBS})

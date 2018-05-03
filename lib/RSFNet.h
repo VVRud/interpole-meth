@@ -2,7 +2,7 @@
 #define SNTKURSACH_RSFNET_H
 
 #include "Base.hpp"
-#include "../Eigen/Dense"
+#include "Eigen/Dense"
 
 class RSFNet : public Base {
 protected:
@@ -26,7 +26,7 @@ public:
 
     RSFNet(double *x, double *y, int n, int r);
 
-    explicit RSFNet(char *f, double r);
+    explicit RSFNet(char *f, double r = 1.5);
 
     ~RSFNet();
 

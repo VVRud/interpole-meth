@@ -1,4 +1,5 @@
 #include <cmath>
+#include <limits>
 #include "Bezier.h"
 
 #define EPSILON 1.0e-5
@@ -71,7 +72,7 @@ void Segment::calculatePoint(double t, Point &p) {
            t3 * points[3].getY());
 }
 
-double Segment::calculate(double t) {
+double Segment::calculateY(double t) {
     double t2 = t * t;
     double t3 = t2 * t;
     double nt = 1.0 - t;
@@ -107,6 +108,8 @@ Bezier::Bezier(char *f) {
     readDataFromFile(file, x, y, n);
     file.close();
     buildSpline(x, y, n);
+    delete[] x;
+    delete[] y;
 }
 
 void Bezier::free_mem() {
@@ -194,6 +197,7 @@ void Bezier::buildSpline(double *x, double *y, int cnt) {
 }
 
 double Bezier::calculateYfromX(double x) {
+    if (!seg_ar) std::numeric_limits<double>::quiet_NaN();
     Segment segment;
     if (x <= seg_ar[0].points[0].getX()) {
         return seg_ar[0].points[0].getY();
@@ -251,7 +255,7 @@ double Bezier::calculateYfromX(double x) {
         else if (t2 >= 0 && t2 <= 1) t = t2;
     }
 
-    return segment.calculate(t);
+    return segment.calculateY(t);
 }
 
 double Bezier::signum(double x) {
@@ -262,6 +266,7 @@ int Bezier::size() {
     return this->n;
 }
 
-void Bezier::calculatePointOnSegment(int s, int t, Point &p) {
+void Bezier::calculatePointOnSegment(int s, double t, Point &p) {
+    if (!seg_ar) std::numeric_limits<double>::quiet_NaN();
     seg_ar[s].calculatePoint(t, p);
 }

@@ -13,7 +13,7 @@ RSFNet::RSFNet(double *x, double *y, int n, int r) : Base(n) {
     build(x, y, n);
 }
 
-RSFNet::RSFNet(char *f, double r) {
+RSFNet::RSFNet(char *f, const double r) {
     this->r = r;
     std::ifstream file(f);
     if (!file) {
@@ -30,6 +30,8 @@ RSFNet::RSFNet(char *f, double r) {
     readDataFromFile(file, x, y, n);
     file.close();
     build(x, y, n);
+    delete[] x;
+    delete[] y;
 }
 
 RSFNet::~RSFNet() {

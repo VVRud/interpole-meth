@@ -15,6 +15,7 @@ protected:
         }
         f.clear();
         f.seekg(0);
+        delete[] s;
         return n;
     }
 

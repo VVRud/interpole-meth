@@ -1,6 +1,5 @@
 #include <cmath>
 #include "AkimaSpline.h"
-#include "Exceptions.h"
 
 AkimaSpline::AkimaSpline() : CubicSpline(){
 }
@@ -29,6 +28,8 @@ AkimaSpline::AkimaSpline(char *f) {
     readDataFromFile(file, x, y, n);
     file.close();
     buildSpline(x, y, n);
+    delete[] x;
+    delete[] y;
 }
 
 void AkimaSpline::buildSpline(double *x, double *y, int cnt) {
@@ -59,12 +60,13 @@ void AkimaSpline::buildSpline(double *x, double *y, int cnt) {
     auto * tL = new double[n - 1];
     auto * tR = new double[n - 1];
 
+    double ne;
     for (int i = 0; i < n; i++) {
-        double ne = fabs(m[i + 1] - m[i]) + fabs(m[i - 1] - m[i - 2]);
+        ne = fabs(m[i + 1] - m[i]) + fabs(m[i - 1] - m[i - 2]);
         if (ne > 0) {
             double alpha = fabs(m[i - 1] - m[i - 2])/ne;
             tL[i] = m[i - 1] + alpha * (m[i] - m[i - 1]);
-            tR[i] = tR[i];
+            tR[i] = tL[i];
         } else {
             tL[i] = m[i - 1];
             tR[i] = m[i];

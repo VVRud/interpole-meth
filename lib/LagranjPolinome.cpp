@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "LagranjPolinome.h"
 
 LagranjPolinome::LagranjPolinome() : Base() {
@@ -29,19 +30,20 @@ void LagranjPolinome::buildSpline(double *x, double *y, int cnt) {
 
 double LagranjPolinome::calculate(double x) {
     if (!splines) {
-        return NULL; // Если сплайны ещё не построены - возвращаем NaN
+        std::numeric_limits<double>::quiet_NaN();
     }
 
     double l = 0;
+    double s;
 
     for (int i = 0; i < n; ++i) {
-        l = 1;
+        s = 1.0;
 
         for (int j = 0; j < n; ++j) {
-            if (i != j) l *= (x - splines[j].x) / (splines[i].x - splines[j].x);
+            if (i != j) s *= (x - splines[j].x) / (splines[i].x - splines[j].x);
         }
 
-        l += splines[i].y * l;
+        l += splines[i].y * s;
     }
 
     return l;
@@ -53,5 +55,25 @@ void LagranjPolinome::print_coef() {
         std::cout << splines[i].x << "\t";
         std::cout << splines[i].y << std::endl;
     }
+}
+
+LagranjPolinome::LagranjPolinome(char *f) {
+    std::ifstream file(f);
+    if (!file) {
+        Exceptions::error(Exceptions::FILE_ERROR);
+        return;
+    }
+    int n = countLines(file);
+    if (n <= 1) {
+        Exceptions::error(Exceptions::FEW_POINTS);
+        return;
+    }
+    auto *x = new double[n];
+    auto *y = new double[n];
+    readDataFromFile(file, x, y, n);
+    file.close();
+    buildSpline(x, y, n);
+    delete[] x;
+    delete[] y;
 }
 

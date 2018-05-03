@@ -24,6 +24,8 @@ Linear::Linear(char *f) {
     readDataFromFile(file, x, y, n);
     file.close();
     build(x, y, n);
+    delete[] x;
+    delete[] y;
 }
 
 void Linear::free_mem() {

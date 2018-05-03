@@ -1,11 +1,10 @@
 #include <iostream>
 #include "lib/CubicSpline.h"
 #include "lib/RSFNet.h"
-#include "lib/Bezier.h"
+#include "lib/LagranjPolinome.h"
 
 int main() {
-    Bezier s(const_cast<char *>("input"));
-    std::cout << s.calculateYfromX(1.7);
-
+    LagranjPolinome s(const_cast<char *>("input"));
+    std::cout << s.calculate(1.5);
     return 0;
 }
