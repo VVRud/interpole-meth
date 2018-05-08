@@ -33,8 +33,6 @@ void MainWindow::drawDots() {
     ui->field->graph(DOTS)->setScatterStyle(QCPScatterStyle::ssDisc);
     ui->field->graph(DOTS)->setLineStyle(QCPGraph::lsNone);
     ui->field->graph(DOTS)->setPen(QPen(Qt::black));
-    xDots->resize(9);
-    yDots->resize(9);
     ui->field->graph(DOTS)->setData(*xDots, *yDots);
 }
 
@@ -203,6 +201,8 @@ void MainWindow::fillArrays() {
      yDots = new QVector<double>(n);
      readDataFromFile(file, xDots, yDots, n);
      file.close();
+     xDots->resize(n); 
+     yDots->resize(n);
 }
 
 void MainWindow::clearArrays() {
