@@ -5,7 +5,7 @@ AkimaSpline::AkimaSpline() : CubicSpline(){
 }
 
 AkimaSpline::~AkimaSpline(){
-    Spline::free_mem();
+    free_mem();
 }
 
 AkimaSpline::AkimaSpline(double *x, double *y, int n) : CubicSpline(n) {
@@ -57,36 +57,33 @@ void AkimaSpline::buildSpline(double *x, double *y, int cnt) {
     m[n + 3] = 3 * m[3];
 */
 
-    auto * tL = new double[n - 1];
-    auto * tR = new double[n - 1];
+    auto * tL = new double[n + 1];
+    auto * tR = new double[n + 1];
 
     double ne;
-    for (int i = 0; i < n; i++) {
-        ne = fabs(m[i + 1] - m[i]) + fabs(m[i - 1] - m[i - 2]);
+    for (int i = 0; i < n + 1; i++) {
+        ne = fabs(m[i + 3] - m[i + 2]) + fabs(m[i + 1] - m[i]);
         if (ne > 0) {
-            double alpha = fabs(m[i - 1] - m[i - 2])/ne;
-            tL[i] = m[i - 1] + alpha * (m[i] - m[i - 1]);
+            double alpha = fabs(m[i + 1] - m[i]) / ne;
+            tL[i] = m[i + 1] + alpha * (m[i + 2] - m[i + 1]);
             tR[i] = tL[i];
         } else {
-            tL[i] = m[i - 1];
-            tR[i] = m[i];
+            tL[i] = m[i + 1];
+            tR[i] = m[i + 2];
         }
     }
 
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n + 1; i++) {
         splines[i].x = x[i];
         splines[i].a = y[i];
         splines[i].b = tR[i];
         double h = x[i + 1] - x[i];
-        splines[i].c = 1/h * (3 * m[i] - 2 * tR[i] - tL[i + 1]);
-        splines[i].d = 1/pow(h, 2) * (tR[i] + tL[i + 1] - 2 * m[i]);
+        splines[i].c = 1/h * (3 * m[i + 2] - 2 * tR[i] - tL[i + 1]);
+        splines[i].d = 1/pow(h, 2) * (tR[i] + tL[i + 1] - 2 * m[i + 2]);
     }
 
     delete[] m;
     delete[] tL;
     delete[] tR;
 }
-
-
-
 

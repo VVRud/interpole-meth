@@ -6,6 +6,11 @@
 
 class Base {
 protected:
+    double xMin;
+    double xMax;
+    double yMin;
+    double yMax;
+
     int countLines(std::ifstream &f) {
         int n = 0;
         auto *s = new char[500];
@@ -20,9 +25,21 @@ protected:
     }
 
     void readDataFromFile(std::ifstream &f, double *x, double *y, int n) {
+        double xC, yC;
         for (int i = 0; i < n; i++) {
-            f >> x[i];
-            f >> y[i];
+            f >> xC;
+            f >> yC;
+            if (i == 0) {
+                xMin = xMax = xC;
+                yMin = yMax = yC;
+            } else {
+                if (xC < xMin) xMin = xC;
+                if (xC > xMax) xMax = xC;
+                if (yC < yMin) yMin = yC;
+                if (yC > yMax) yMax = yC;
+            }
+            x[i] = xC;
+            y[i] = yC;
         }
     }
 
@@ -33,6 +50,23 @@ protected:
             Exceptions::error(Exceptions::FEW_POINTS);
             return;
         }
+    }
+
+public:
+    double getXMin() const {
+        return xMin;
+    }
+
+    double getXMax() const {
+        return xMax;
+    }
+
+    double getYMin() const {
+        return yMin;
+    }
+
+    double getYMax() const {
+        return yMax;
     }
 };
 
