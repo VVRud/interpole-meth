@@ -52,6 +52,7 @@ private slots:
     void on_check_bez_stateChanged(int arg1);
     void on_check_lag_stateChanged(int arg1);
     void on_actionOpen_triggered();
+    void on_actionSave_Plot_triggered();
     void on_spin_editingFinished();
 };
 

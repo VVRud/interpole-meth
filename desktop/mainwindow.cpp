@@ -155,6 +155,25 @@ void MainWindow::on_actionOpen_triggered()
     }
 }
 
+void MainWindow::on_actionSave_Plot_triggered() {
+    QString f = QFileDialog::getSaveFileName(
+            this,
+            tr("Save File"), "",
+            "JPG File (*.jpg);;BMP file (*.bmp);;PNG File(*.png)"
+            );
+
+    if (f.count() > 0){
+        if (f.contains(".jpg"))
+            ui->field->saveJpg(f);
+        else if (f.contains(".bmp"))
+            ui->field->saveBmp(f);
+        else if (f.contains(".png"))
+            ui->field->savePng(f);
+        else
+            ui->field->saveJpg(f + ".jpg");
+    }
+}
+
 void MainWindow::on_spin_editingFinished() {
     if (ui->calc->isEnabled()) {
         double c = ui->spin->value();
