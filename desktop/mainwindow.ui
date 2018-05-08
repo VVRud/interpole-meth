@@ -40,13 +40,13 @@ QGroupBox::title {
       <x>669</x>
       <y>10</y>
       <width>181</width>
-      <height>181</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
-      <width>160</width>
-      <height>181</height>
+      <width>0</width>
+      <height>0</height>
      </size>
     </property>
     <property name="baseSize">
@@ -127,22 +127,6 @@ QGroupBox::title {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="check_net">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>150</y>
-       <width>131</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Neural Network</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QCheckBox" name="check_lag">
      <property name="geometry">
       <rect>
@@ -164,9 +148,9 @@ QGroupBox::title {
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>320</y>
+      <y>350</y>
       <width>181</width>
-      <height>181</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="font">
@@ -223,19 +207,6 @@ QGroupBox::title {
       <string notr="true">background: darkMagenta; border: 1px solid grey;</string>
      </property>
     </widget>
-    <widget class="QWidget" name="widget_5" native="true">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>150</y>
-       <width>21</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background: cyan; border: 1px solid grey;</string>
-     </property>
-    </widget>
     <widget class="QWidget" name="widget_6" native="true">
      <property name="geometry">
       <rect>
@@ -288,19 +259,6 @@ QGroupBox::title {
       <string>Bezier Curve</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>150</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Neural Network</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
@@ -332,6 +290,63 @@ QGroupBox::title {
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+   </widget>
+   <widget class="QGroupBox" name="calc">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>170</y>
+      <width>181</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="title">
+     <string>Calculate</string>
+    </property>
+    <widget class="QDoubleSpinBox" name="spin">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="decimals">
+      <number>4</number>
+     </property>
+     <property name="minimum">
+      <double>0.000000000000000</double>
+     </property>
+     <property name="singleStep">
+      <double>0.100000000000000</double>
+     </property>
+     <property name="value">
+      <double>0.000000000000000</double>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="calculated">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>161</width>
+       <height>101</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
@@ -389,7 +404,6 @@ QGroupBox::title {
   <tabstop>check_lin</tabstop>
   <tabstop>check_cub</tabstop>
   <tabstop>check_bez</tabstop>
-  <tabstop>check_net</tabstop>
   <tabstop>check_lag</tabstop>
  </tabstops>
  <resources/>

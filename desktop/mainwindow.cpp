@@ -126,12 +126,6 @@ void MainWindow::on_check_bez_stateChanged(int arg1)
     calc();
 }
 
-void MainWindow::on_check_net_stateChanged(int arg1)
-{
-    Q_UNUSED(arg1);
-    calc();
-}
-
 void MainWindow::on_check_lag_stateChanged(int arg1)
 {
     Q_UNUSED(arg1);
@@ -140,6 +134,8 @@ void MainWindow::on_check_lag_stateChanged(int arg1)
 
 void MainWindow::on_actionOpen_triggered()
 {
+    ui->groupBox->setEnabled(false);
+    ui->calc->setEnabled(false);
     QString f = QFileDialog::getOpenFileName(
                 this,
                 tr("Open File"), "",
@@ -149,10 +145,24 @@ void MainWindow::on_actionOpen_triggered()
     if (strcmp(fileName, "") != 0) {
         clearArrays();
         fillArrays();
-        ui->groupBox->setEnabled(true);
         createObjects();
+        ui->groupBox->setEnabled(true);
+        ui->calc->setEnabled(true);
+        ui->spin->setMaximum(lin.getXMax());
+        ui->spin->setMinimum(lin.getXMin());
         if (!graphCreated) createGraphs();
         calc();
+    }
+}
+
+void MainWindow::on_spin_editingFinished() {
+    if (ui->calc->isEnabled()) {
+        double c = ui->spin->value();
+        QString str;
+        str = "Linear: " + QString::number(lin.calculate(c)) +
+              "\nCubic: " + QString::number(cs.calculate(c)) +
+              "\nLagranj: " + QString::number(lp.calculate(c)) + "\n";
+        ui->calculated->setPlainText(str);
     }
 }
 
@@ -201,7 +211,7 @@ void MainWindow::fillArrays() {
      yDots = new QVector<double>(n);
      readDataFromFile(file, xDots, yDots, n);
      file.close();
-     xDots->resize(n); 
+     xDots->resize(n);
      yDots->resize(n);
 }
 
