@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>860</width>
-    <height>480</height>
+    <height>560</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,7 +20,15 @@
    <string>Interpolation Demo</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QGroupBox { 
+     border: 3px solid gray;
+     border-radius: 6px;
+ }
+QGroupBox::title { 
+    background-color: transparent;
+     subcontrol-position: top;
+     padding:2 13px;
+ } </string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QGroupBox" name="groupBox">
@@ -32,13 +40,13 @@
       <x>669</x>
       <y>10</y>
       <width>181</width>
-      <height>211</height>
+      <height>181</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>160</width>
-      <height>211</height>
+      <height>181</height>
      </size>
     </property>
     <property name="baseSize">
@@ -63,15 +71,7 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">QGroupBox { 
-     border: 3px solid gray;
-     border-radius: 6px;
- }
-QGroupBox::title { 
-    background-color: transparent;
-     subcontrol-position: top;
-     padding:2 13px;
- } </string>
+     <string notr="true"/>
     </property>
     <property name="title">
      <string>Interpolation Type</string>
@@ -106,22 +106,6 @@ QGroupBox::title {
      </property>
      <property name="text">
       <string>Cubic Spline</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="check_ak">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>90</y>
-       <width>131</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Akima Spline</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -163,7 +147,7 @@ QGroupBox::title {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>90</y>
        <width>131</width>
        <height>22</height>
       </rect>
@@ -176,28 +160,177 @@ QGroupBox::title {
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="field">
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>320</y>
+      <width>181</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+      <underline>true</underline>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="title">
+     <string>Colors</string>
+    </property>
+    <widget class="QWidget" name="widget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: red; border: 1px solid grey;</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget_3" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>60</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: darkGreen; border: 1px solid grey;</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget_4" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>120</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: darkMagenta; border: 1px solid grey;</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget_5" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>150</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: cyan; border: 1px solid grey;</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="widget_6" native="true">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>21</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: darkCyan; border: 1px solid grey;</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>30</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Linear</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>60</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cubic Spline</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>120</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Bezier Curve</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>150</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Neural Network</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>90</y>
+       <width>121</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Lagranj Polinome</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QCustomPlot" name="field" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
       <width>651</width>
-      <height>411</height>
+      <height>491</height>
      </rect>
     </property>
-    <property name="minimumSize">
-     <size>
-      <width>651</width>
-      <height>411</height>
-     </size>
+    <property name="font">
+     <font>
+      <stylestrategy>PreferAntialias</stylestrategy>
+     </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">QWidget {
-	border: 1px solid grey;
-}</string>
-    </property>
-    <property name="text">
-     <string/>
+     <string notr="true"/>
     </property>
    </widget>
   </widget>
@@ -244,10 +377,17 @@ QGroupBox::title {
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>../lib/QCustomPlot/qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>check_lin</tabstop>
   <tabstop>check_cub</tabstop>
-  <tabstop>check_ak</tabstop>
   <tabstop>check_bez</tabstop>
   <tabstop>check_net</tabstop>
   <tabstop>check_lag</tabstop>
