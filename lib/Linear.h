@@ -6,10 +6,10 @@
 class Linear : public Base {
 protected:
     struct spline_tuple {
-        double k, b, x;
+        double b, k, y, x;
     };
 
-    spline_tuple *splines; // Сплайн
+    spline_tuple* splines;
     int n;
 
     void free_mem();

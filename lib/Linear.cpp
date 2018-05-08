@@ -1,14 +1,14 @@
 #include <iostream>
 #include "Linear.h"
 
-Linear::Linear() : splines(nullptr) {
+Linear::Linear() : splines(nullptr){
 }
 
-Linear::Linear(double *x, double *y, int n) : Base(n) {
+Linear::Linear(double *x, double *y, int n) : Base(n), splines(nullptr) {
     build(x, y, n);
 }
 
-Linear::Linear(char *f) {
+Linear::Linear(char *f) : splines(nullptr) {
     std::ifstream file(f);
     if (!file) {
         Exceptions::error(Exceptions::FILE_ERROR);
@@ -24,8 +24,6 @@ Linear::Linear(char *f) {
     readDataFromFile(file, x, y, n);
     file.close();
     build(x, y, n);
-    delete[] x;
-    delete[] y;
 }
 
 void Linear::free_mem() {
@@ -42,10 +40,13 @@ Linear::~Linear() {
 void Linear::build(double *x, double *y, int cnt) {
     free_mem();
     this->n = cnt;
-    splines = new spline_tuple[n];
-    for (int i = 0; i < n; ++i) {
-        splines[i].k = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
-        splines[i].b = y[i] - splines[i].k * x[i];
+    this->splines = new spline_tuple[cnt];
+
+    for (int i = 0; i < cnt; ++i) {
+        this->splines[i].k = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
+        this->splines[i].b = y[i] - this->splines[i].k * x[i];
+        this->splines[i].x = x[i];
+        this->splines[i].y = y[i];
     }
 }
 
@@ -54,24 +55,18 @@ double Linear::calculate(double x) {
         return NULL; // Если сплайны ещё не построены - возвращаем NaN
     }
 
-    spline_tuple *s;
     if (x <= splines[0].x)
-        s = splines + 1;
-    else if (x >= splines[n - 1].x)
-        s = splines + n - 1;
-    else {
-        int i = 0, j = n - 1;
-        while (i + 1 < j) {
-            int k = i + (j - i) / 2;
-            if (x <= splines[k].x)
-                j = k;
-            else
-                i = k;
-        }
-        s = splines + j;
-    }
+        return splines[0].y;
+    else if (x >= splines[n-1].x)
+        return splines[n-1].y;
 
-    return s->k * x + s->b;
+    for (int i = 0; i < n-1; ++i)
+        if (x == splines[i].x)
+            return splines[i].y;
+
+    for (int i = 0; i < n-1; ++i)
+        if (x >= splines[i].x && x <= splines[i + 1].x)
+            return splines[i].k * x + splines[i].b;
 }
 
 void Linear::print_coef() {

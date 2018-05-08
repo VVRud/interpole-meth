@@ -8,13 +8,11 @@ void RSFNet::free_mem() {
 
 RSFNet::RSFNet() = default;
 
-RSFNet::RSFNet(double *x, double *y, int n, int r) : Base(n) {
-    this->r = r;
+RSFNet::RSFNet(double *x, double *y, int n, int r) : Base(n), r(r) {
     build(x, y, n);
 }
 
-RSFNet::RSFNet(char *f, const double r) {
-    this->r = r;
+RSFNet::RSFNet(char *f, const double r) : Base(), r(r){
     std::ifstream file(f);
     if (!file) {
         Exceptions::error(Exceptions::FILE_ERROR);
@@ -66,14 +64,7 @@ double RSFNet::calculate(double x) {
         h[i] = gaussian(x, xV[i]);
     }
 
-    return (h * weights).eval()(0, 0);
-}
-
-void RSFNet::print_coef() {
-    std::cout << "Weights are:" << std::endl;
-    for (int i = 0; i < n; ++i) {
-        std::cout << weights[i] << std::endl;
-    }
+    return weights.dot(h);
 }
 
 double RSFNet::gaussian(double x, double x1) {

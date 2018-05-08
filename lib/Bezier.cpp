@@ -198,6 +198,8 @@ void Bezier::buildSpline(double *x, double *y, int cnt) {
     }
 }
 
+//TODO FIX
+//-----------------------------------------------------------IS NOT OK
 double Bezier::calculateYfromX(double x) {
     if (!seg_ar) std::numeric_limits<double>::quiet_NaN();
     Segment segment;
@@ -263,6 +265,7 @@ double Bezier::calculateYfromX(double x) {
 double Bezier::signum(double x) {
     return (x > 0) - (x < 0);
 }
+//--------------------------------------------------------------
 
 int Bezier::size() {
     return this->n;
