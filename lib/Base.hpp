@@ -2,6 +2,7 @@
 #define SNTKURSACH_BASE_H
 
 #include <fstream>
+#include <cstring>
 #include "Exceptions.h"
 
 class Base {
@@ -16,7 +17,7 @@ protected:
         auto *s = new char[500];
         while (!f.eof()) {
             f.getline(s, 500);
-            n++;
+            if (strcmp(s, "") != 0) n++;
         }
         f.clear();
         f.seekg(0);
