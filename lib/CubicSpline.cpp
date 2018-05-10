@@ -4,7 +4,7 @@
 CubicSpline::CubicSpline() : Spline() {
 }
 
-CubicSpline::CubicSpline(int n) : Spline(n){
+CubicSpline::CubicSpline(int n) : Spline(n) {
 
 }
 
@@ -12,7 +12,7 @@ CubicSpline::CubicSpline(double *x, double *y, int n) : Spline(n) {
     buildSpline(x, y, n);
 }
 
-CubicSpline::CubicSpline(char* f) {
+CubicSpline::CubicSpline(char *f) {
     std::ifstream file(f);
     if (!file) {
         Exceptions::error(Exceptions::FILE_ERROR);
@@ -23,8 +23,8 @@ CubicSpline::CubicSpline(char* f) {
         Exceptions::error(Exceptions::FEW_POINTS);
         return;
     }
-    auto * x = new double[n];
-    auto * y = new double[n];
+    auto *x = new double[n];
+    auto *y = new double[n];
     readDataFromFile(file, x, y, n);
     file.close();
     buildSpline(x, y, n);
@@ -79,9 +79,8 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
     }
 }
 
-double CubicSpline::calculate(double x)
-{
-    if (!splines){
+double CubicSpline::calculate(double x) {
+    if (!splines) {
         std::numeric_limits<double>::quiet_NaN();
     }
 
@@ -106,6 +105,6 @@ double CubicSpline::calculate(double x)
     return s->a + (s->b + (s->c / 2. + s->d * dx / 6.) * dx) * dx; // Вычисляем значение сплайна в заданной точке.
 }
 
-CubicSpline::~CubicSpline(){
+CubicSpline::~CubicSpline() {
     Spline::free_mem();
 }

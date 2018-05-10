@@ -4,29 +4,29 @@
 #include "../lib/Linear.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    xDots(nullptr),
-    yDots(nullptr)
-{
+        QMainWindow(parent),
+        ui(new Ui::MainWindow),
+        xDots(nullptr),
+        yDots(nullptr) {
     ui->setupUi(this);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     clearArrays();
     delete ui;
 }
 
-void MainWindow::drawCords()
-{
+void MainWindow::drawCords() {
+    double dx = fabs(lin.getXMax()) + fabs(lin.getXMin());
+    double dy = fabs(lin.getYMax()) + fabs(lin.getYMin());
+
     ui->field->xAxis->setLabel("X axis");
-    ui->field->xAxis->setRange(lin.getXMin() - fabs(lin.getXMin()) / 10,
-                               lin.getXMax() + fabs(lin.getXMax() / 10));
+    ui->field->xAxis->setRange(lin.getXMin() - dx / 10,
+                               lin.getXMax() + dx / 10);
 
     ui->field->yAxis->setLabel("Y axis");
-    ui->field->yAxis->setRange(lin.getYMin() - fabs(lin.getYMin()) / 10,
-                               lin.getYMax() + fabs(lin.getYMax() / 10));
+    ui->field->yAxis->setRange(lin.getYMin() - dy / 10,
+                               lin.getYMax() + dy / 10);
 }
 
 void MainWindow::drawDots() {
@@ -49,15 +49,15 @@ void MainWindow::paint(double *x, double *y, int n, int s, QPen qp) {
 
 void MainWindow::calc() {
     ui->field->setBackground(QBrush(QColor("#f2f2f2")));
-    if (ui->groupBox->isEnabled()){
+    if (ui->groupBox->isEnabled()) {
         drawCords();
         drawDots();
         double res = 0.01;
         double d = fabs(lin.getXMax()) + fabs(lin.getXMin());
 
-        auto dres = (int)(d / res);
-        auto * x = new double[dres];
-        auto * y = new double[dres];
+        auto dres = (int) (d / res);
+        auto *x = new double[dres];
+        auto *y = new double[dres];
 
         if (ui->check_lin->isChecked()) {
             for (int i = 0; i < dres; i++) {
@@ -78,13 +78,13 @@ void MainWindow::calc() {
         if (ui->check_bez->isChecked()) {
             int resBez = 1000;
             int size = resBez * bez.size();
-            auto * xbez = new double[size];
-            auto * ybez = new double[size];
+            auto *xbez = new double[size];
+            auto *ybez = new double[size];
             int pl = 0;
             for (int j = 0; j < bez.size(); ++j) {
                 for (int i = 0; i < resBez; i++, pl++) {
                     Point p;
-                    bez.calculatePointOnSegment(j, (double)i / (double)resBez, p);
+                    bez.calculatePointOnSegment(j, (double) i / (double) resBez, p);
                     xbez[pl] = p.getX();
                     ybez[pl] = p.getY();
                 }
@@ -108,38 +108,33 @@ void MainWindow::calc() {
     }
 }
 
-void MainWindow::on_check_lin_stateChanged(int arg1)
-{
+void MainWindow::on_check_lin_stateChanged(int arg1) {
     Q_UNUSED(arg1);
     calc();
 }
 
-void MainWindow::on_check_cub_stateChanged(int arg1)
-{
+void MainWindow::on_check_cub_stateChanged(int arg1) {
     Q_UNUSED(arg1);
     calc();
 }
 
-void MainWindow::on_check_bez_stateChanged(int arg1)
-{
+void MainWindow::on_check_bez_stateChanged(int arg1) {
     Q_UNUSED(arg1);
     calc();
 }
 
-void MainWindow::on_check_lag_stateChanged(int arg1)
-{
+void MainWindow::on_check_lag_stateChanged(int arg1) {
     Q_UNUSED(arg1);
     calc();
 }
 
-void MainWindow::on_actionOpen_triggered()
-{
+void MainWindow::on_actionOpen_triggered() {
     ui->groupBox->setEnabled(false);
     ui->calc->setEnabled(false);
     QString f = QFileDialog::getOpenFileName(
-                this,
-                tr("Open File"), "",
-                "All Files (*.*);;Text File (*.txt)");
+            this,
+            tr("Open File"), "",
+            "All Files (*.*);;Text File (*.txt)");
     QByteArray ba = f.toLatin1();
     this->fileName = ba.data();
     if (strcmp(fileName, "") != 0) {
@@ -160,9 +155,9 @@ void MainWindow::on_actionSave_Plot_triggered() {
             this,
             tr("Save File"), "",
             "JPG File (*.jpg);;BMP file (*.bmp);;PNG File(*.png)"
-            );
+    );
 
-    if (f.count() > 0){
+    if (f.count() > 0) {
         if (f.contains(".jpg"))
             ui->field->saveJpg(f);
         else if (f.contains(".bmp"))
@@ -224,14 +219,14 @@ void MainWindow::readDataFromFile(std::ifstream &f, QVector<double> *x, QVector<
 }
 
 void MainWindow::fillArrays() {
-     std::ifstream file(fileName);
-     int n = countLines(file);
-     xDots = new QVector<double>(n);
-     yDots = new QVector<double>(n);
-     readDataFromFile(file, xDots, yDots, n);
-     file.close();
-     xDots->resize(n);
-     yDots->resize(n);
+    std::ifstream file(fileName);
+    int n = countLines(file);
+    xDots = new QVector<double>(n);
+    yDots = new QVector<double>(n);
+    readDataFromFile(file, xDots, yDots, n);
+    file.close();
+    xDots->resize(n);
+    yDots->resize(n);
 }
 
 void MainWindow::clearArrays() {

@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Linear.h"
 
-Linear::Linear() : splines(nullptr){
+Linear::Linear() : splines(nullptr) {
 }
 
 Linear::Linear(double *x, double *y, int n) : Base(n), splines(nullptr) {
@@ -57,14 +57,14 @@ double Linear::calculate(double x) {
 
     if (x <= splines[0].x)
         return splines[0].y;
-    else if (x >= splines[n-1].x)
-        return splines[n-1].y;
+    else if (x >= splines[n - 1].x)
+        return splines[n - 1].y;
 
-    for (int i = 0; i < n-1; ++i)
+    for (int i = 0; i < n - 1; ++i)
         if (x == splines[i].x)
             return splines[i].y;
 
-    for (int i = 0; i < n-1; ++i)
+    for (int i = 0; i < n - 1; ++i)
         if (x >= splines[i].x && x <= splines[i + 1].x)
             return splines[i].k * x + splines[i].b;
 }

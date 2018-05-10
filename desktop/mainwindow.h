@@ -8,28 +8,30 @@
 
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
-    Q_OBJECT
+class MainWindow : public QMainWindow {
+Q_OBJECT
 protected:
     void calc();
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    char* fileName;
+    char *fileName;
     bool graphCreated = false;
-    QVector<double> * xDots;
-    QVector<double> * yDots;
+    QVector<double> *xDots;
+    QVector<double> *yDots;
 
-    enum {DOTS, LINEAR, CUBIC, LAGRANJ, BEZIER,
-            COUNT};
+    enum {
+        DOTS, LINEAR, CUBIC, LAGRANJ, BEZIER,
+        COUNT
+    };
 
     Linear lin;
     CubicSpline cs;
@@ -37,22 +39,37 @@ private:
     Bezier bez;
 
     void createObjects();
+
     void createGraphs();
+
     void drawCords();
+
     void drawDots();
-    void paint(double* x, double* y, int n, int s, QPen qp);
+
+    void paint(double *x, double *y, int n, int s, QPen qp);
+
     int countLines(std::ifstream &f);
+
     void readDataFromFile(std::ifstream &f, QVector<double> *x, QVector<double> *y, int n);
+
     void fillArrays();
+
     void clearArrays();
 
 private slots:
+
     void on_check_lin_stateChanged(int arg1);
+
     void on_check_cub_stateChanged(int arg1);
+
     void on_check_bez_stateChanged(int arg1);
+
     void on_check_lag_stateChanged(int arg1);
+
     void on_actionOpen_triggered();
+
     void on_actionSave_Plot_triggered();
+
     void on_spin_editingFinished();
 };
 

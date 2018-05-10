@@ -12,7 +12,7 @@ RSFNet::RSFNet(double *x, double *y, int n, int r) : Base(n), r(r) {
     build(x, y, n);
 }
 
-RSFNet::RSFNet(char *f, const double r) : Base(), r(r){
+RSFNet::RSFNet(char *f, const double r) : Base(), r(r) {
     std::ifstream file(f);
     if (!file) {
         Exceptions::error(Exceptions::FILE_ERROR);

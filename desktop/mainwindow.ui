@@ -13,7 +13,13 @@
   <property name="minimumSize">
    <size>
     <width>860</width>
-    <height>480</height>
+    <height>560</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>860</width>
+    <height>560</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -281,6 +287,12 @@ QGroupBox::title {
       <width>651</width>
       <height>491</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
     </property>
     <property name="font">
      <font>

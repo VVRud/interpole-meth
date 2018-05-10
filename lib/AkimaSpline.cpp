@@ -1,10 +1,10 @@
 #include <cmath>
 #include "AkimaSpline.h"
 
-AkimaSpline::AkimaSpline() : CubicSpline(){
+AkimaSpline::AkimaSpline() : CubicSpline() {
 }
 
-AkimaSpline::~AkimaSpline(){
+AkimaSpline::~AkimaSpline() {
     free_mem();
 }
 
@@ -19,12 +19,12 @@ AkimaSpline::AkimaSpline(char *f) {
         return;
     }
     int n = countLines(file);
-    if(n<=1){
+    if (n <= 1) {
         Exceptions::error(Exceptions::FEW_POINTS);
         return;
     }
-    auto * x = new double[n];
-    auto * y = new double[n];
+    auto *x = new double[n];
+    auto *y = new double[n];
     readDataFromFile(file, x, y, n);
     file.close();
     buildSpline(x, y, n);
@@ -37,10 +37,10 @@ void AkimaSpline::buildSpline(double *x, double *y, int cnt) {
     this->n = cnt;
 
     splines = new spline_tuple[n];
-    auto * m = new double[n + 4];
+    auto *m = new double[n + 4];
 
     for (int i = 0; i < n; i++) {
-        m[i + 2] = (y[i + 1] - y[i])/(x[i + 1] - x[i]);
+        m[i + 2] = (y[i + 1] - y[i]) / (x[i + 1] - x[i]);
     }
 
     //Not Periodic
@@ -57,8 +57,8 @@ void AkimaSpline::buildSpline(double *x, double *y, int cnt) {
     m[n + 3] = 3 * m[3];
 */
 
-    auto * tL = new double[n + 1];
-    auto * tR = new double[n + 1];
+    auto *tL = new double[n + 1];
+    auto *tR = new double[n + 1];
 
     double ne;
     for (int i = 0; i < n + 1; i++) {
@@ -78,8 +78,8 @@ void AkimaSpline::buildSpline(double *x, double *y, int cnt) {
         splines[i].a = y[i];
         splines[i].b = tR[i];
         double h = x[i + 1] - x[i];
-        splines[i].c = 1/h * (3 * m[i + 2] - 2 * tR[i] - tL[i + 1]);
-        splines[i].d = 1/pow(h, 2) * (tR[i] + tL[i + 1] - 2 * m[i + 2]);
+        splines[i].c = 1 / h * (3 * m[i + 2] - 2 * tR[i] - tL[i + 1]);
+        splines[i].d = 1 / pow(h, 2) * (tR[i] + tL[i + 1] - 2 * m[i + 2]);
     }
 
     delete[] m;
