@@ -7,19 +7,22 @@
 #include <cstdio>
 #include "Spline.hpp"
 
-class CubicSpline : public Spline{
-    protected:
-        explicit CubicSpline(int n);
+class CubicSpline : public Spline {
+protected:
+    explicit CubicSpline(int n);
 
-    public:
-        CubicSpline(); //конструктор
+public:
+    CubicSpline();
 
-        ~CubicSpline() override;
-        CubicSpline(double *x, double *y, int n);
-        explicit CubicSpline(char* f);
+    ~CubicSpline() override;
 
-        void buildSpline(double *x, double *y, int cnt) override;
-        double calculate(double x) override;
+    CubicSpline(double *x, double *y, int n);
+
+    explicit CubicSpline(char *f);
+
+    void buildSpline(double *x, double *y, int cnt) override;
+
+    double calculate(double x) override;
 };
 
 

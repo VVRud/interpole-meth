@@ -3,14 +3,16 @@
 
 #include "CubicSpline.h"
 
-class AkimaSpline : public CubicSpline{
-    public:
-        AkimaSpline(); //конструктор
-        ~AkimaSpline() override;
-        AkimaSpline(double *x, double *y, int n);
-        explicit AkimaSpline(char* f);
+class AkimaSpline : public CubicSpline {
+public:
+    AkimaSpline();
+    ~AkimaSpline() override;
 
-        void buildSpline(double *x, double *y, int cnt) override;
+    AkimaSpline(double *x, double *y, int n);
+
+    explicit AkimaSpline(char *f);
+
+    void buildSpline(double *x, double *y, int cnt) override;
 };
 
 
