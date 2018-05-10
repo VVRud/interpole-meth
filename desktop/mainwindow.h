@@ -44,6 +44,8 @@ private:
 
     void drawCords();
 
+    void focus();
+
     void drawDots();
 
     void paint(double *x, double *y, int n, int s, QPen qp);

@@ -9,6 +9,10 @@ MainWindow::MainWindow(QWidget *parent) :
         xDots(nullptr),
         yDots(nullptr) {
     ui->setupUi(this);
+    drawCords();
+    ui->field->setBackground(QBrush(QColor("#f2f2f2")));
+    ui->field->setInteraction(QCP::iRangeDrag, true);
+    ui->field->setInteraction(QCP::iRangeZoom, true);
 }
 
 MainWindow::~MainWindow() {
@@ -17,14 +21,17 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::drawCords() {
-    double dx = fabs(lin.getXMax()) + fabs(lin.getXMin());
-    double dy = fabs(lin.getYMax()) + fabs(lin.getYMin());
-
     ui->field->xAxis->setLabel("X axis");
+    ui->field->yAxis->setLabel("Y axis");
+}
+
+void MainWindow::focus() {
+    double dx = fabs(lin.getXMin() - lin.getXMax());
+    double dy = fabs(lin.getYMin() - lin.getYMax());
+
     ui->field->xAxis->setRange(lin.getXMin() - dx / 10,
                                lin.getXMax() + dx / 10);
 
-    ui->field->yAxis->setLabel("Y axis");
     ui->field->yAxis->setRange(lin.getYMin() - dy / 10,
                                lin.getYMax() + dy / 10);
 }
@@ -48,14 +55,12 @@ void MainWindow::paint(double *x, double *y, int n, int s, QPen qp) {
 }
 
 void MainWindow::calc() {
-    ui->field->setBackground(QBrush(QColor("#f2f2f2")));
     if (ui->groupBox->isEnabled()) {
-        drawCords();
         drawDots();
         double res = 0.01;
-        double d = fabs(lin.getXMax()) + fabs(lin.getXMin());
+        double d = fabs(lin.getXMin() - lin.getXMax());
 
-        auto dres = (int) (d / res);
+        auto dres = (int) (d / res) + 1;
         auto *x = new double[dres];
         auto *y = new double[dres];
 
@@ -141,6 +146,7 @@ void MainWindow::on_actionOpen_triggered() {
         clearArrays();
         fillArrays();
         createObjects();
+        focus();
         ui->groupBox->setEnabled(true);
         ui->calc->setEnabled(true);
         ui->spin->setMaximum(lin.getXMax());
