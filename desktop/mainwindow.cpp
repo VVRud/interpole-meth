@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
         xDots(nullptr),
         yDots(nullptr) {
     ui->setupUi(this);
+    fillComboBoxes();
     drawCords();
     ui->field->setBackground(QBrush(QColor("#f2f2f2")));
     ui->field->setInteraction(QCP::iRangeDrag, true);
@@ -18,6 +19,15 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow() {
     clearArrays();
     delete ui;
+}
+
+void MainWindow::fillComboBoxes() {
+    QStringList list = QStringList() << tr("Solid Line") << tr("Dash Line") << tr("Dot Line") <<
+                                     tr("Dash Dot Line") << tr("Dash Dot Dot Line");
+    ui->lin_style_tb->addItems(list);
+    ui->cub_style_tb->addItems(list);
+    ui->lag_style_tb->addItems(list);
+    ui->bez_style_tb->addItems(list);
 }
 
 void MainWindow::drawCords() {
@@ -113,77 +123,65 @@ void MainWindow::calc() {
     }
 }
 
-void MainWindow::on_check_lin_stateChanged(int arg1) {
-    Q_UNUSED(arg1);
-    calc();
+void MainWindow::showColorPicker(QWidget *pWidget, QWidget *pQWidget, QCPGraph *pGraph) {
+    QColor color = QColorDialog::getColor();
+    if (color == nullptr) return;
+    QString style = "background: " + color.name() + "; border: 1px solid grey;";
+
+    QRect pWidGeom = pWidget->geometry();
+    QRect pQWidGeom = pQWidget->geometry();
+    QWidget *parWidget = pQWidget->parentWidget();
+
+    pWidget = new QWidget(ui->colors);
+    pWidget->setGeometry(pWidGeom);
+    pWidget->setStyleSheet(style);
+
+    pQWidget = new QWidget(parWidget);
+    pQWidget->setGeometry(pQWidGeom);
+    pQWidget->setStyleSheet(style);
+
+    QPen pen = pGraph->pen();
+    pen.setColor(color);
+    pGraph->setPen(pen);
+
+    ui->field->replot();
+    pWidget->show();
+    pQWidget->show();
 }
 
-void MainWindow::on_check_cub_stateChanged(int arg1) {
-    Q_UNUSED(arg1);
-    calc();
-}
+void MainWindow::changePenStyle(QCPGraph *pGraph, int arg1) {
+    QPen pen = pGraph->pen();
+    QPen qpen(pen.color(), pen.width());
 
-void MainWindow::on_check_bez_stateChanged(int arg1) {
-    Q_UNUSED(arg1);
-    calc();
-}
-
-void MainWindow::on_check_lag_stateChanged(int arg1) {
-    Q_UNUSED(arg1);
-    calc();
-}
-
-void MainWindow::on_actionOpen_triggered() {
-    ui->groupBox->setEnabled(false);
-    ui->calc->setEnabled(false);
-    QString f = QFileDialog::getOpenFileName(
-            this,
-            tr("Open File"), "",
-            "All Files (*.*);;Text File (*.txt)");
-    QByteArray ba = f.toLatin1();
-    this->fileName = ba.data();
-    if (strcmp(fileName, "") != 0) {
-        clearArrays();
-        fillArrays();
-        createObjects();
-        focus();
-        ui->groupBox->setEnabled(true);
-        ui->calc->setEnabled(true);
-        ui->spin->setMaximum(lin.getXMax());
-        ui->spin->setMinimum(lin.getXMin());
-        if (!graphCreated) createGraphs();
-        calc();
+    switch (arg1 + 1) {
+        default:
+        case Qt::SolidLine:
+            qpen.setStyle(Qt::SolidLine);
+            break;
+        case Qt::DashLine:
+            qpen.setStyle(Qt::DashLine);
+            break;
+        case Qt::DotLine:
+            qpen.setStyle(Qt::DotLine);
+            break;
+        case Qt::DashDotLine:
+            qpen.setStyle(Qt::DashDotLine);
+            break;
+        case Qt::DashDotDotLine:
+            qpen.setStyle(Qt::DashDotDotLine);
+            break;
     }
+
+    pGraph->setPen(qpen);
+    ui->field->replot();
 }
 
-void MainWindow::on_actionSave_Plot_triggered() {
-    QString f = QFileDialog::getSaveFileName(
-            this,
-            tr("Save File"), "",
-            "JPG File (*.jpg);;BMP file (*.bmp);;PNG File(*.png)"
-    );
-
-    if (f.count() > 0) {
-        if (f.contains(".jpg"))
-            ui->field->saveJpg(f);
-        else if (f.contains(".bmp"))
-            ui->field->saveBmp(f);
-        else if (f.contains(".png"))
-            ui->field->savePng(f);
-        else
-            ui->field->saveJpg(f + ".jpg");
-    }
-}
-
-void MainWindow::on_spin_editingFinished() {
-    if (ui->calc->isEnabled()) {
-        double c = ui->spin->value();
-        QString str;
-        str = "Linear: " + QString::number(lin.calculate(c)) +
-              "\nCubic: " + QString::number(cs.calculate(c)) +
-              "\nLagranj: " + QString::number(lp.calculate(c)) + "\n";
-        ui->calculated->setPlainText(str);
-    }
+void MainWindow::changePenThickness(QCPGraph *pGraph, QSpinBox *spinBox) {
+    QPen pen = pGraph->pen();
+    pen.setWidth(spinBox->value());
+    pGraph->setPen(pen);
+//    pGraph->pen().setWidth(spinBox->value());
+    ui->field->replot();
 }
 
 void MainWindow::createObjects() {
@@ -244,4 +242,127 @@ void MainWindow::clearArrays() {
         delete yDots;
         yDots = nullptr;
     }
+}
+
+void MainWindow::on_check_lin_stateChanged(int arg1) {
+    ui->field->graph(LINEAR)->setVisible(arg1);
+    ui->field->replot();
+}
+
+void MainWindow::on_check_cub_stateChanged(int arg1) {
+    ui->field->graph(CUBIC)->setVisible(arg1);
+    ui->field->replot();
+}
+
+void MainWindow::on_check_bez_stateChanged(int arg1) {
+    ui->field->graph(BEZIER)->setVisible(arg1);
+    ui->field->replot();
+}
+
+void MainWindow::on_check_lag_stateChanged(int arg1) {
+    ui->field->graph(LAGRANJ)->setVisible(arg1);
+    ui->field->replot();
+}
+
+void MainWindow::on_actionOpen_triggered() {
+    ui->groupBox->setEnabled(false);
+    ui->calc->setEnabled(false);
+    ui->toolBox->setEnabled(false);
+    QString f = QFileDialog::getOpenFileName(
+            this,
+            tr("Open File"), "",
+            "All Files (*.*);;Text File (*.txt)");
+    QByteArray ba = f.toLatin1();
+    this->fileName = ba.data();
+    if (strcmp(fileName, "") != 0) {
+        clearArrays();
+        fillArrays();
+        createObjects();
+        focus();
+        ui->calc->setEnabled(true);
+        ui->toolBox->setEnabled(true);
+        ui->groupBox->setEnabled(true);
+        ui->spin->setMaximum(lin.getXMax());
+        ui->spin->setMinimum(lin.getXMin());
+        if (!graphCreated) createGraphs();
+        calc();
+    }
+}
+
+void MainWindow::on_actionSave_Plot_triggered() {
+    QString f = QFileDialog::getSaveFileName(
+            this,
+            tr("Save File"), "",
+            "JPG File (*.jpg);;BMP file (*.bmp);;PNG File(*.png)"
+    );
+
+    if (f.count() > 0) {
+        if (f.contains(".jpg"))
+            ui->field->saveJpg(f);
+        else if (f.contains(".bmp"))
+            ui->field->saveBmp(f);
+        else if (f.contains(".png"))
+            ui->field->savePng(f);
+        else
+            ui->field->saveJpg(f + ".jpg");
+    }
+}
+
+void MainWindow::on_spin_editingFinished() {
+    if (ui->calc->isEnabled()) {
+        double c = ui->spin->value();
+        QString str;
+        str = "Linear: " + QString::number(lin.calculate(c)) +
+              "\nCubic: " + QString::number(cs.calculate(c)) +
+              "\nLagranj: " + QString::number(lp.calculate(c)) + "\n";
+        ui->calculated->setPlainText(str);
+    }
+}
+
+void MainWindow::on_lin_col_choose_clicked() {
+    showColorPicker(ui->lin_color, ui->lin_col_tb, ui->field->graph(LINEAR));
+}
+
+void MainWindow::on_cub_col_choose_clicked() {
+    showColorPicker(ui->cub_color, ui->cub_col_tb, ui->field->graph(CUBIC));
+}
+
+void MainWindow::on_lag_col_choose_clicked() {
+    showColorPicker(ui->lag_color, ui->lag_col_tb, ui->field->graph(LAGRANJ));
+}
+
+void MainWindow::on_bez_col_choose_clicked() {
+    showColorPicker(ui->bez_color, ui->bez_col_tb, ui->field->graph(BEZIER));
+}
+
+void MainWindow::on_lin_style_tb_activated(int arg1) {
+    changePenStyle(ui->field->graph(LINEAR), arg1);
+}
+
+void MainWindow::on_cub_style_tb_activated(int arg1) {
+    changePenStyle(ui->field->graph(CUBIC), arg1);
+}
+
+void MainWindow::on_lag_style_tb_activated(int arg1) {
+    changePenStyle(ui->field->graph(LAGRANJ), arg1);
+}
+
+void MainWindow::on_bez_style_tb_activated(int arg1) {
+    changePenStyle(ui->field->graph(BEZIER), arg1);
+}
+
+void MainWindow::on_lin_thick_tb_editingFinished() {
+    changePenThickness(ui->field->graph(LINEAR), ui->lin_thick_tb);
+}
+
+void MainWindow::on_cub_thick_tb_editingFinished() {
+    changePenThickness(ui->field->graph(CUBIC), ui->cub_thick_tb);
+}
+
+void MainWindow::on_lag_thick_tb_editingFinished() {
+    changePenThickness(ui->field->graph(LAGRANJ), ui->lag_thick_tb);
+}
+
+void MainWindow::on_bez_thick_tb_editingFinished() {
+    changePenThickness(ui->field->graph(BEZIER), ui->bez_thick_tb);
 }

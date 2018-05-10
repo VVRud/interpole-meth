@@ -20,8 +20,8 @@ file(GLOB LIBS
         lib/*hpp)
 
 file(GLOB QT
-        desktop/mainwindow.h
-        desktop/mainwindow.cpp)
+        desktop/*.h
+        desktop/*.cpp)
 
 file(GLOB PLOT
         lib/QCustomPlot/qcustomplot.h

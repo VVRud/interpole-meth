@@ -4,8 +4,8 @@
 #include <QMainWindow>
 #include <QFile>
 #include <QPainter>
+#include <lib/QCustomPlot/qcustomplot.h>
 #include "../lib/Interpolation.h"
-
 
 namespace Ui {
     class MainWindow;
@@ -58,6 +58,14 @@ private:
 
     void clearArrays();
 
+    void showColorPicker(QWidget *pWidget, QWidget *pQWidget, QCPGraph *pGraph);
+
+    void fillComboBoxes();
+
+    void changePenStyle(QCPGraph *pGraph, int arg1);
+
+    void changePenThickness(QCPGraph *pGraph, QSpinBox *spinBox);
+
 private slots:
 
     void on_check_lin_stateChanged(int arg1);
@@ -73,6 +81,30 @@ private slots:
     void on_actionSave_Plot_triggered();
 
     void on_spin_editingFinished();
+
+    void on_lin_style_tb_activated(int arg1);
+
+    void on_cub_style_tb_activated(int arg1);
+
+    void on_lag_style_tb_activated(int arg1);
+
+    void on_bez_style_tb_activated(int arg1);
+
+    void on_lin_thick_tb_editingFinished();
+
+    void on_cub_thick_tb_editingFinished();
+
+    void on_lag_thick_tb_editingFinished();
+
+    void on_bez_thick_tb_editingFinished();
+
+    void on_lin_col_choose_clicked();
+
+    void on_cub_col_choose_clicked();
+
+    void on_lag_col_choose_clicked();
+
+    void on_bez_col_choose_clicked();
 };
 
 #endif // MAINWINDOW_H
