@@ -5,7 +5,7 @@
 #include <libio.h>
 #include <fstream>
 #include <cstdio>
-#include "Spline.hpp"
+#include "../Spline.hpp"
 
 class CubicSpline : public Spline {
 protected:

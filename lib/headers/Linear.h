@@ -1,7 +1,7 @@
 #ifndef SNTKURSACH_LINEAR_H
 #define SNTKURSACH_LINEAR_H
 
-#include "Base.hpp"
+#include "../Base.hpp"
 
 class Linear : public Base {
 protected:

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <limits>
-#include "LagranjPolinome.h"
+#include "headers/LagranjPolinome.h"
 
 LagranjPolinome::LagranjPolinome() : Base() {
 }

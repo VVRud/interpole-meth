@@ -1,5 +1,5 @@
 #include <cmath>
-#include "AkimaSpline.h"
+#include "headers/AkimaSpline.h"
 
 AkimaSpline::AkimaSpline() : CubicSpline() {
 }

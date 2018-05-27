@@ -1,7 +1,7 @@
 #ifndef SNTKURSACH_LAGRANJPOLINOME_H
 #define SNTKURSACH_LAGRANJPOLINOME_H
 
-#include "Base.hpp"
+#include "../Base.hpp"
 
 class LagranjPolinome : public Base {
 protected:

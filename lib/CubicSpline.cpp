@@ -1,5 +1,5 @@
 #include <limits>
-#include "CubicSpline.h"
+#include "headers/CubicSpline.h"
 
 CubicSpline::CubicSpline() : Spline() {
 }

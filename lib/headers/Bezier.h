@@ -2,7 +2,7 @@
 #define SNTKURSACH_BEZIER_H
 
 
-#include "Base.hpp"
+#include "../Base.hpp"
 
 class Point {
 protected:

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Linear.h"
+#include "headers/Linear.h"
 
 Linear::Linear() : splines(nullptr) {
 }
