@@ -11,6 +11,14 @@ protected:
 
     /** Structure represents linear sector between 2 points.
      */
+    /** @struct spline_tuple
+    *  @brief Structure representing interpolated function using
+    *          Linear interpolation between 2 points.
+    *  @var spline_tuple::b
+    *  @var spline_tuple::k
+    *  @var spline_tuple::y
+    *  @var spline_tuple::x
+    */
     struct spline_tuple {
         double b, k, y, x;
     };

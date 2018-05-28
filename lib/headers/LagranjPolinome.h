@@ -10,7 +10,12 @@
 class LagranjPolinome : public Base {
 protected:
 
-    /** Structure representing Lagranj polinome between 2 points.
+
+    /** @struct spline_tuple
+     *  @brief Structure representing interpolated function using
+     *          Lagranj polinome between 2 points.
+     *  @var spline_tuple::y
+     *  @var spline_tuple::x
      */
     struct spline_tuple {
         double y, x;

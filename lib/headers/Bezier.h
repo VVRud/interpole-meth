@@ -91,16 +91,14 @@ public:
 
     /** Normalization process for Point representing a vector.
      *  Geometric normalization process using formulas:
-     *  \f{eqnarray*}{
-     *      x_n &=& \frac{x}{\sqrt{x^2+y^2}}
-     *      y_n &=& \frac{y}{\sqrt{x^2+y^2}}
-     *  \f}
+     *     - \f$(x_n&=&\frac{x}{\sqrt{x^2+y^2}})\f$ ;
+     *     - \f$(y_n&=&\frac{y}{\sqrt{x^2+y^2}})\f$ .
      */
     void normalize();
 };
 
 /** Segment class represents interpolated Bezier segment between 2 points from an array.
- * Segments quantity will be \f$ s_num-1 \f$.
+ * Segments quantity will be \f$(s_num-1)\f$.
  *
  */
 class Segment {
@@ -191,7 +189,6 @@ public:
     virtual ~Bezier();
 
     /** Main interpolation function.
-     * //TODO
      *
      * @param x Array of X values for function.
      * @param y Array of Y values for function.

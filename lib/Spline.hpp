@@ -20,7 +20,13 @@ protected:
     Spline(int n) : Base(n) {
     }
 
-    /** Spline coefficients representing.
+    /** @struct spline_tuple
+     *  @brief Structure represent interpolated function sector between 2 points.
+     *  @var spline_tuple::a
+     *  @var spline_tuple::b
+     *  @var spline_tuple::c
+     *  @var spline_tuple::d
+     *  @var spline_tuple::x
      */
     struct spline_tuple {
         double a, b, c, d, x;
