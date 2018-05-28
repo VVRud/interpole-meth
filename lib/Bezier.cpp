@@ -1,6 +1,6 @@
 #include <cmath>
 #include <limits>
-#include "Bezier.h"
+#include "lib/headers/Bezier.h"
 
 #define EPSILON 1.0e-5
 

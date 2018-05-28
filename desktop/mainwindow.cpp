@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QFileDialog>
-#include "../lib/Linear.h"
+#include "lib/headers/Linear.h"
 
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -180,7 +180,6 @@ void MainWindow::changePenThickness(QCPGraph *pGraph, QSpinBox *spinBox) {
     QPen pen = pGraph->pen();
     pen.setWidth(spinBox->value());
     pGraph->setPen(pen);
-//    pGraph->pen().setWidth(spinBox->value());
     ui->field->replot();
 }
 

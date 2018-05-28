@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Linear.h"
+#include "lib/headers/Linear.h"
 
 Linear::Linear() : splines(nullptr) {
 }
@@ -52,7 +52,7 @@ void Linear::build(double *x, double *y, int cnt) {
 
 double Linear::calculate(double x) {
     if (!splines) {
-        return NULL; // Если сплайны ещё не построены - возвращаем NaN
+        return NULL;
     }
 
     if (x <= splines[0].x)
@@ -68,12 +68,3 @@ double Linear::calculate(double x) {
         if (x >= splines[i].x && x <= splines[i + 1].x)
             return splines[i].k * x + splines[i].b;
 }
-
-void Linear::print_coef() {
-    std::cout << "K[k]\tB[k]" << std::endl;
-    for (int i = 0; i < n; ++i) {
-        std::cout << splines[i].k << "\t";
-        std::cout << splines[i].b << std::endl;
-    }
-}
-

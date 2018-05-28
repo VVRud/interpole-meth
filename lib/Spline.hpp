@@ -6,18 +6,36 @@
 #include <iostream>
 #include "Base.hpp"
 
+/** Basic class for splines as Cubic spline or Akima spline.
+ * This class stores arrays of Spline segments.
+ *
+ * @extends Base
+ */
 class Spline : public Base {
 protected:
+    /** Basic constructor to check quantity of points.
+     *
+     * @param n Number of points.
+     */
     Spline(int n) : Base(n) {
     }
 
-    // Структура, описывающая сплайн на каждом сегменте сетки
+    /** Spline coefficients representing.
+     */
     struct spline_tuple {
         double a, b, c, d, x;
     };
 
-    spline_tuple *splines; // Сплайн
-    int n; // Количество узлов сетки
+    /** Array of spline coefficients for every curve between 2 points.
+     */
+    spline_tuple *splines;
+
+    /** Number of splines in Splines array.
+     */
+    int n;
+
+    /** Method to cleanup memory.
+     */
     void free_mem() {
         if (!splines) {
             delete[] splines;
@@ -27,28 +45,29 @@ protected:
 
 
 public:
-    Spline() : Base() {
-        splines = nullptr;
-    }
+    /** Default constructor without parameters for Splines.
+     */
+    Spline() : Base(), splines(nullptr){}
 
+    /** Virtual function to be initialized in derived classes.
+     *
+     * @param x Array of function X values.
+     * @param y Array of function Y values.
+     * @param n Number of points in both X and Y arrays.
+     */
     virtual void buildSpline(double *x, double *y, int n) {
     }
 
+    /** Calculate corresponding X for Y.
+     *
+     * @param x Value X to get corresponding Y.
+     * @return
+     */
     virtual double calculate(double x) {
     }
 
-    //TODO DELETE. ONLY DEBUG VERSION
-    void print_coef() {
-        std::cout << "A[k]\tB[k]\tC[k]\tD[k]" << std::endl;
-        for (int i = 0; i < n; ++i) {
-            std::cout << splines[i].a << "\t";
-            std::cout << splines[i].b << "\t";
-            std::cout << splines[i].c << "\t";
-            std::cout << splines[i].d << std::endl;
-        }
-    }
-    //-------------------------------
-
+    /** Destructor for spline.
+     */
     virtual ~Spline() {
         free_mem();
     }

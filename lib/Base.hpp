@@ -3,15 +3,34 @@
 
 #include <fstream>
 #include <cstring>
-#include "Exceptions.h"
+#include "lib/headers/Exceptions.h"
 
+/** Base class contains basic functions for interpolation.
+ *
+ */
 class Base {
 protected:
+    /** Minimum X value of the function to interpolate.
+     */
     double xMin;
+
+    /** Maximum X value of the function to interpolate.
+     */
     double xMax;
+
+    /** Minimum Y value of the function to interpolate.
+     */
     double yMin;
+
+    /** Maximum Y value of the function to interpolate.
+     */
     double yMax;
 
+    /** Method to count lines in file.
+     *
+     * @param f File stream to read lines from.
+     * @return Number of lines in file
+     */
     int countLines(std::ifstream &f) {
         int n = 0;
         auto *s = new char[500];
@@ -25,6 +44,13 @@ protected:
         return n;
     }
 
+    /** Read Points data from file stream.
+     *
+     * @param f File stream to read from.
+     * @param x X array to fill.
+     * @param y Y array to fill.
+     * @param n number of lines in file.
+     */
     void readDataFromFile(std::ifstream &f, double *x, double *y, int n) {
         double xC, yC;
         for (int i = 0; i < n; i++) {
@@ -44,8 +70,15 @@ protected:
         }
     }
 
+    /** Default constructor for Base class.
+     *
+     */
     Base() = default;
 
+    /** Constructor to check number of points.
+     *
+     * @param n Number of points.
+     */
     explicit Base(int n) {
         if (n <= 1) {
             Exceptions::error(Exceptions::FEW_POINTS);
@@ -54,18 +87,34 @@ protected:
     }
 
 public:
+    /** Getter for minimum X function value.
+     *
+     * @return Minimum X value of function.
+     */
     double getXMin() const {
         return xMin;
     }
 
+    /** Getter for maximum X function value.
+     *
+     * @return Maximum X value of function.
+     */
     double getXMax() const {
         return xMax;
     }
 
+    /** Getter for minimum Y function value.
+     *
+     * @return Minimum Y value of function.
+     */
     double getYMin() const {
         return yMin;
     }
 
+    /** Getter for maximum Y function value.
+     *
+     * @return Maximum Y value of function.
+     */
     double getYMax() const {
         return yMax;
     }

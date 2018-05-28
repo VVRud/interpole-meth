@@ -1,6 +1,6 @@
 #include <iostream>
 #include <limits>
-#include "LagranjPolinome.h"
+#include "lib/headers/LagranjPolinome.h"
 
 LagranjPolinome::LagranjPolinome() : Base() {
 }
@@ -49,14 +49,6 @@ double LagranjPolinome::calculate(double x) {
     }
 
     return l;
-}
-
-void LagranjPolinome::print_coef() {
-    std::cout << "X[k]\tY[k]" << std::endl;
-    for (int i = 0; i < n; ++i) {
-        std::cout << splines[i].x << "\t";
-        std::cout << splines[i].y << std::endl;
-    }
 }
 
 LagranjPolinome::LagranjPolinome(char *f) {

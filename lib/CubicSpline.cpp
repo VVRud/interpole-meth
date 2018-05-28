@@ -1,5 +1,5 @@
 #include <limits>
-#include "CubicSpline.h"
+#include "lib/headers/CubicSpline.h"
 
 CubicSpline::CubicSpline() : Spline() {
 }
@@ -37,7 +37,6 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
 
     this->n = n;
 
-    // Инициализация массива сплайнов
     splines = new spline_tuple[n];
     for (int i = 0; i < n; ++i) {
         splines[i].x = x[i];
@@ -45,7 +44,6 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
     }
     splines[0].c = 0.;
 
-    //Метод прогонки
     auto *alpha = new double[n - 1];
     auto *beta = new double[n - 1];
     double A, B, C, F, h_i, h_i1, z;
@@ -64,14 +62,12 @@ void CubicSpline::buildSpline(double *x, double *y, int n) {
 
     splines[n - 1].c = (F - A * beta[n - 2]) / (C + A * alpha[n - 2]);
 
-    // Обратный ход метода прогонки
     for (int i = n - 2; i > 0; --i)
         splines[i].c = alpha[i] * splines[i + 1].c + beta[i];
 
     delete[] beta;
     delete[] alpha;
 
-    // По известным коэффициентам c[i] находим значения b[i] и d[i]
     for (int i = n - 1; i > 0; --i) {
         h_i = x[i] - x[i - 1];
         splines[i].d = (splines[i].c - splines[i - 1].c) / h_i;
@@ -102,7 +98,7 @@ double CubicSpline::calculate(double x) {
     }
 
     double dx = (x - s->x);
-    return s->a + (s->b + (s->c / 2. + s->d * dx / 6.) * dx) * dx; // Вычисляем значение сплайна в заданной точке.
+    return s->a + (s->b + (s->c / 2. + s->d * dx / 6.) * dx) * dx;
 }
 
 CubicSpline::~CubicSpline() {
